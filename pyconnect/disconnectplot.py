@@ -36,7 +36,6 @@ class DisconnectPlot(Disconnect):
         elif self.kw.metric['present']: 
             self.GetMetric2DNewStyle()
 
-        print self.kw.trval
         if self.kw.trmin['trmin_file']: self.GetTrminColours()
         elif self.kw.trval['trval_file']: self.GetTrvalColoursNewStyle()
         
@@ -203,35 +202,29 @@ class DisconnectPlot(Disconnect):
         # Open File 'metric_file' and read data
         f = open(self.kw.metric['metric_file'])
         lines = iter(f)
-        lines.next() # Skip the first two lines of the input file
-        lines.next() # as it contains header information
+        # lines.readline() # Skip the first two lines of the input file
+        # lines.next() # as it contains header information
         
-        for line in lines:
-            
+        for k, line in enumerate(lines):
             line = line.split()
             m = int(line[0])
             x = float(line[1])
 
-
-            if self.minima_index['Index'].has_key(m):
+            if m in self.minima_index['Index']:
                 self.minima_index['Index'][m]['Metric']['x'] = x
-                if x > self.basin_index['MaxX']: 
+                if x > self.basin_index['MaxX']:
                     self.basin_index['MaxX'] = x
                 if x < self.basin_index['MinX']:
                     self.basin_index['MinX'] = x
-                
-        
+
         for l in self.basin_index['Level']:
             for b in self.basin_index['Level'][l]['Basin']:
                 temp = []
 
-                for m in self.basin_index['Level'][l]['Basin'][b]\
-                    ['Min']:
-                    temp.append(self.minima_index['Index'][m]
-                                ['Metric']['x'])
+                for m in self.basin_index['Level'][l]['Basin'][b]['Min']:
+                    temp.append(self.minima_index['Index'][m]['Metric']['x'])
 
-                self.basin_index['Level'][l]['Basin'][b]\
-                    ['MetricX'] = np.mean(temp)
+                self.basin_index['Level'][l]['Basin'][b]['MetricX'] = np.mean(temp)
                     
     def GetMetric3D(self):
         '''
@@ -399,7 +392,7 @@ class DisconnectPlot(Disconnect):
         
         '''
         if not self.trmin_dict.has_key(col):
-            print '%s not a key in trmin_dict'%col
+            print('%s not a key in trmin_dict'%col)
             sys.exit()
         else:
             for m in self.trmin_dict[col]:
@@ -500,7 +493,7 @@ class DisconnectPlot(Disconnect):
         '''
         self.CountMin()
         total_clmn = self.minima_index['Size']
-        print 'Level 1'
+        print('Level 1')
         low_clmn = 1
         for b in self.basin_index['Level'][1]['Basin']:
         
@@ -520,7 +513,7 @@ class DisconnectPlot(Disconnect):
         for l in self.basin_index['Level']:
             if l == 1: continue
         
-            print 'Level %d'%l
+            print('Level %d'%l)
             for b in self.basin_index['Level'][l-1]['Basin']:
                 c = self.basin_index['Level'][l-1]['Basin'][b]\
                     ['Children']
@@ -656,28 +649,28 @@ class DisconnectPlot(Disconnect):
             try:
                 col_in = col.to_rgb(colour_in)
             except ValueError:
-                print '"%s" not a recognised colour'%colour_in
+                print('"%s" not a recognised colour'%colour_in)
                 sys.exit()
-            print '%s converted to: '%colour_in, col_in
+            print('%s converted to: '%colour_in, col_in)
          
         if type(colour_out) == str:
             col = colors.ColorConverter()
             try:
                 col_out = col.to_rgb(colour_out)
             except ValueError:
-                print '"%s" not a recognised colour'%colour_out     
+                print('"%s" not a recognised colour'%colour_out)
                 sys.exit()
-            print '%s converted to: '%colour_out, col_out
+            print('%s converted to: '%colour_out, col_out)
         
         # Check that colour_in is a valid key, and that there isn't an extant 
         # colour_out
         
         if not self.trmin_dict.has_key(col_in): 
-            print '%s:%s trmin group not found'%(colour_in,col_in)
+            print('%s:%s trmin group not found'%(colour_in,col_in))
             sys.exit()
             
         if self.trmin_dict.has_key(col_out): 
-            print '%s:%s already exists'%(colour_out,col_out)
+            print('%s:%s already exists'%(colour_out,col_out))
             sys.exit()
             
         # Change colour here!
@@ -700,15 +693,15 @@ class DisconnectPlot(Disconnect):
             col = colors.ColorConverter()
             try:
                 col_in = col.to_rgb(colour)
-                print col_in
+                print(col_in)
             except ValueError:
-                print '"%s" not a recognised colour'%colour
+                print('"%s" not a recognised colour'%colour)
                 sys.exit()
-            print '%s converted to: '%colour, col_in
+            print('%s converted to: '%colour, col_in)
          
         # Check that col_in doesn't already exist
         if self.trmin_dict.has_key(col_in): 
-            print '%s:%s already exists'%(colour,col_in)
+            print('%s:%s already exists'%(colour,col_in))
             sys.exit()
     
         # Add new colour
@@ -727,15 +720,15 @@ class DisconnectPlot(Disconnect):
             col = colors.ColorConverter()
             try:
                 col_in = col.to_rgb(colour)
-                print col_in
+                print(col_in)
             except ValueError:
-                print '"%s" not a recognised colour'%colour
+                print('"%s" not a recognised colour'%colour)
                 sys.exit()
-            print '%s converted to: '%colour, col_in
+            print('%s converted to: '%colour, col_in)
          
         # Check that col_in doesn't already exist
         if self.trmin_dict.has_key(col_in): 
-            print '%s:%s already exists'%(colour,col_in)
+            print('%s:%s already exists'%(colour,col_in))
             sys.exit()
     
         # Add new colour
@@ -753,16 +746,16 @@ class DisconnectPlot(Disconnect):
             col = colors.ColorConverter()
             try:
                 col_in = col.to_rgb(colour)
-                print col_in
+                print(col_in)
             except ValueError:
-                print '"%s" not a recognised colour'%colour
+                print('"%s" not a recognised colour'%colour)
                 sys.exit()
-            print '%s converted to: '%colour, col_in
+            print('%s converted to: '%colour, col_in)
         
         else: col_in = colour
         
         if not self.trmin_dict.has_key(col_in):
-            print '%s not a key in trmin_dict'%col_in
+            print('%s not a key in trmin_dict'%col_in)
             sys.exit()
         else:
             for m in self.trmin_dict[col_in]:
@@ -817,9 +810,9 @@ class DisconnectPlot(Disconnect):
         self.OpenGLCoordsDisconnect(l, b2)
         
 #        print f1,l1,s1,f2,l2,s2,s_diff,change_lst
-        print l1, l2, delta_l
-        print f1, f2, delta_f
-        print s1, s2, delta_s
+        print(l1, l2, delta_l)
+        print(f1, f2, delta_f)
+        print(s1, s2, delta_s)
         
         new_change_lst = []
         for c in change_lst:

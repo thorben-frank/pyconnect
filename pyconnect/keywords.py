@@ -23,7 +23,7 @@ class Keywords(dict):
         # The draw option determines if the the disconnectivity 
         # graph is ready to be drawn
         self.dinfo = dinfo
-        print 'Reading keyword data from file "%s"'%self.dinfo
+        print('Reading keyword data from file "%s"'%self.dinfo)
         self.draw = False
 
         # Check dinfo file is present
@@ -94,7 +94,7 @@ class Keywords(dict):
         Checks the existence of the file 'file_name'
         '''
         if not os.path.exists(file_name):
-            print ('ERROR: Could not find file %s'%file_name)
+            print('ERROR: Could not find file %s'%file_name)
             return None
         else:
             return file_name
@@ -171,7 +171,7 @@ class Keywords(dict):
             try:
                 keyword[1] = float(keyword[1])
             except:
-                print "ERROR"
+                print("ERROR")
             
             return dict(dE = keyword[1])
 
@@ -187,7 +187,7 @@ class Keywords(dict):
             try:
                 keyword[1] = float(keyword[1])
             except:
-                print 'ERROR'
+                print('ERROR')
                 
             return dict(E1 = keyword[1])
 
@@ -202,7 +202,7 @@ class Keywords(dict):
             try:
                 keyword[1] = int(keyword[1])
             except:
-                print 'ERROR'
+                print('ERROR')
             
             return dict(n = keyword[1])
 
@@ -217,7 +217,7 @@ class Keywords(dict):
             try:
                 keyword[1] = str(keyword[1])
             except:
-                print 'ERROR'
+                print('ERROR')
 
             return dict(data_file = keyword[1])
 
@@ -233,7 +233,7 @@ class Keywords(dict):
             try:
                 keyword[1] = str(keyword[1])
             except:
-                print 'ERROR'
+                print('ERROR')
 
             return dict(data_file = keyword[1])
 
@@ -250,7 +250,7 @@ class Keywords(dict):
             try:
                 keyword[1] = int(keyword[1])
             except:
-                print 'ERROR'
+                print('ERROR')
 
             return dict(connectmin = keyword[1])
         
@@ -270,7 +270,7 @@ class Keywords(dict):
             try:
                 keyword[1] = int(keyword[1])
             except:
-                print 'ERROR'
+                print('ERROR')
                 
             return dict(max_min = keyword[1])
         
@@ -300,7 +300,7 @@ class Keywords(dict):
             try:
                 keyword[2] = str(keyword[2])
             except:
-                print 'ERROR'
+                print('ERROR')
             return dict(present = True,
                         metric_file = keyword[2])
 
@@ -316,7 +316,7 @@ class Keywords(dict):
                 keyword[1] = str(keyword[1])
                 keyword[2] = str(keyword[2])
             except:
-                print 'ERROR'
+                print('ERROR')
             return dict(present = True,
                         metricx_file = keyword[1], 
                         metricy_file = keyword[2])
@@ -352,7 +352,7 @@ class Keywords(dict):
             try:
                 keyword[1] = float(keyword[1])
             except:
-                print 'ERROR'
+                print('ERROR')
 
             return dict(tsthresh = keyword[1])
 
@@ -402,12 +402,12 @@ class Keywords(dict):
         red -> yellow -> green -> cyan -> blue   
         '''
         keyword = self.ReadDinfo('trval')
-        print 'keyword',keyword
+        print('keyword',keyword)
         if keyword:
             try:
                 keyword[2] = str(keyword[2])
             except:
-                print 'ERROR'
+                print('ERROR')
 
             return dict(trval_file = keyword[2])
 
@@ -492,7 +492,7 @@ class Keywords(dict):
             try:
                 keyword[1] = int(keyword[1])
             except:
-                print 'ERROR'
+                print('ERROR')
 
             return dict(bins = keyword[1])
         else:

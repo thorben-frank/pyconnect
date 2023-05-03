@@ -50,7 +50,7 @@ class DGCanvasFrame():
         '''
         Format axes (ie. determine location and add labels)
         '''
-        for loc, spine in self.ax.spines.iteritems():
+        for loc, spine in self.ax.spines.items():
             if loc in ['left']:    
                 spine.set_position(('outward',10)) # outward by 10 points                                                                               
             elif loc in ['right','top','bottom']:
@@ -99,7 +99,7 @@ class DGCanvasFrame():
             try:
                 self.disc.minima_index['Index'][i]
             except KeyError:
-                print "Minimum " + label + " not present"
+                print("Minimum " + label + " not present")
                 continue
             
             for l in self.disc.minima_index['Index'][i]['Basin']['Level']:
@@ -139,7 +139,7 @@ class DGCanvasFrame():
                 p = self.disc.basin_index['Level'][l]['Basin'][b]\
                     ['Parents']
                 self.LinesDG(l,b,c,p)
-        print 'shape of self.line_array', np.shape(self.line_array), type(self.line_array[0])
+        print('shape of self.line_array', np.shape(self.line_array), type(self.line_array[0]))
 
         self.Line = LineCollection(self.line_array,
                                    color=self.rgba_array,
@@ -159,7 +159,7 @@ class DGCanvasFrame():
         if not c:
             try: z2 = self.disc.basin_index['Level'][l]['Basin'][b]['Energy']
             except KeyError: 
-                print "Basin %d at level %d appears to have no children, and yet has not been assigned an Energy"%(b,l)
+                print("Basin %d at level %d appears to have no children, and yet has not been assigned an Energy"%(b,l))
                 sys.exit()
         else:
 
@@ -235,7 +235,7 @@ class MDGCanvasFrame():
         '''
         Format axes (ie. determine location and add labels)
         '''
-        for loc, spine in self.ax.spines.iteritems():
+        for loc, spine in self.ax.spines.items():
             if loc in ['left','bottom']:    
                 spine.set_position(('outward',10)) # outward by 10 points                                                                               
             elif loc in ['right','top']:

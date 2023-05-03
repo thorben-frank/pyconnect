@@ -145,11 +145,13 @@ class Disconnect(object):
         for line in open(file_name, 'r'):
             TS_data = line.split()
             i += 1
-            if int(TS_data[3]) == int(TS_data[4]): continue
-            elif self.kw.tsthresh['tsthresh'] <= float(TS_data[0]): continue
-            elif  not self.minima_index['Index'].has_key(int(TS_data[3])):
+            if int(TS_data[3]) == int(TS_data[4]):
                 continue
-            elif  not self.minima_index['Index'].has_key(int(TS_data[4])):
+            elif self.kw.tsthresh['tsthresh'] <= float(TS_data[0]):
+                continue
+            elif not int(TS_data[3]) in self.minima_index['Index']:
+                continue
+            elif not int(TS_data[4]) in self.minima_index['Index']:
                 continue
 #            if int(TS_data[3]) 
             else:
@@ -164,7 +166,7 @@ class Disconnect(object):
         '''
         
         '''
-        print 'Assigning Minima to Basins'
+        print('Assigning Minima to Basins')
         for level in self.basin_index['Level']:
             energy_threshold = self.EnergyThreshold(level)
 
@@ -183,8 +185,8 @@ class Disconnect(object):
                         
                 self.AssignMinToBasin(level, indice)
                 
-            print '%d basins at energy %2.2f'%(self.basin_index['Level'][level]['No. of Basins'],
-                                               self.basin_index['Level'][level]['Energy'])
+            print('%d basins at energy %2.2f'%(self.basin_index['Level'][level]['No. of Basins'],
+                                               self.basin_index['Level'][level]['Energy']))
 #--------------------------------------------------------------------#
 
     def EnergyThreshold(self,level):
@@ -338,9 +340,8 @@ class Disconnect(object):
              
                     temp[b] = self.basin_index['Level'][l]['Basin'][b].copy()
                     del self.basin_index['Level'][l]['Basin'][b]
-                except KeyError, e:
-             
-                    sys.exit('Level: %s Basin: %s'%(l, e))
+                except KeyError:
+                    sys.exit('Level: %s Basin: %s'%(l))
                 
             
             for b in basin_dict:
@@ -413,8 +414,11 @@ class Disconnect(object):
         '''
         Finds the global minimum of the database
         '''
+        # min(d, key=lambda x: d.get(x)['energy'])
+
         GM = min(self.minima_index['Index'],
-                 key = self.minima_index['Index'].get)#['Energy'])
+                 key=lambda x: self.minima_index['Index'].get(x)['Energy'])#['Energy'])
+        print('Global minimum:', GM)
         self.minima_index['GM'] = self.minima_index['Index'][GM]
         self.minima_index['GM']['Index'] = GM
         
@@ -491,8 +495,8 @@ class Disconnect(object):
         dm, dt = self._RemoveBadTS()
         
         if dm or dt:
-            print "Transition states indices with energy lower than the minima they connect:"
-            print [t for t in list(set(dt))]
+            print("Transition states indices with energy lower than the minima they connect:")
+            print([t for t in list(set(dt))])
         
         dt = self._RemoveUnderConnectedTS(dm, dt)
                 
@@ -506,7 +510,7 @@ class Disconnect(object):
             for m in dm:
                 del self.minima_index['Index'][m]
                 
-            print "%d Transition states and %d minima were invalid and had to be removed"%(len(dt), len(dm))
+            print("%d Transition states and %d minima were invalid and had to be removed"%(len(dt), len(dm)))
             
     def _RemoveBadTS(self):
         '''
@@ -644,7 +648,7 @@ class Disconnect(object):
         for indice in temp_dict['Index']:
             if not temp_dict['Index'][indice]['Connect to GM']:
                 for i in self.minima_index['Index'][indice]['TS']:
-                    if self.ts_index['Index'].has_key(i):
+                    if i in self.ts_index['Index']:
                         del self.ts_index['Index'][i]
                 del self.minima_index['Index'][indice]
         
